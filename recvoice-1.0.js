@@ -57,7 +57,6 @@
 		speech.onresult = function(e) {
 			var text = e.results[e.results.length - 1][0].transcript;
 			elem.html(text);
-		    console.log(text);
 		}
 		return speech;
 	};
