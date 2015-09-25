@@ -1,6 +1,7 @@
 # RecVoice
 
 Plugin que implementa botões para gravar o que for dito em uma textarea.
+*Only Chrome Browser*
 
 Para utilizar, basta fazer o tipo de implemento abaixo:
 
