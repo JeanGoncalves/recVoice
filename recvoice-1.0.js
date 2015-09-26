@@ -14,34 +14,52 @@
         verify();
 
         var self = $(this);
-
-        var location;
-        for (var i = 0; i < self.parent().children().length; i++) {
-            if ($(self.parent().children()[i])[0] === self[0])
-                location = $(self.parent().children()[i - 1]);
-        }
-        console.log(location);
         var spech = createSpeech(self);
-
         var div = createDiv();
+        var start = buttonStart();
+        var stop = buttonStop();
 
-        var buttonStart = createButton('Iniciar');
-        buttonStart.addEventListener('click', function() {
+        start.addEventListener('click', function() {
             spech.start();
-            buttonStart.disabled = true;
-            buttonStop.disabled = false;
+            $(start).hide();
+            $(stop).show();
+            start.disabled = true;
+            stop.disabled = false;
         });
 
-        var buttonStop = createButton('Parar', true);
-        buttonStop.addEventListener('click', function() {
+        stop.addEventListener('click', function() {
             spech.stop();
-            buttonStart.disabled = false;
-            buttonStop.disabled = true;
+            $(start).show();
+            $(stop).hide();
+            start.disabled = false;
+            stop.disabled = true;
         });
 
+        self.wrap(div);
+        var container = document.getElementById('recvoice-container');
+        $(container).prepend(start).prepend(stop);
+        var style = createStyle();
+        $('body').append(style);
+    };
 
-        location.append(buttonStart);
-        location.append(buttonStop);
+    var buttonStart = function(){
+        var classButton = document.createAttribute('class');
+        classButton.value = 'button button-recvoice';
+    	var button = createButton('Iniciar');
+    	button.id = 'recvoice-buttonstart';
+    	button.setAttributeNode(classButton);
+        return button;
+    };
+
+    var buttonStop = function() {
+    	var button = createButton('Parar', true);
+    	button.id = 'recvoice-buttonstop';
+        var classButton = document.createAttribute('class');
+        classButton.value = 'button button-recvoice';
+    	button.setAttributeNode(classButton);
+    	button.class = 'button button-recvoice';
+    	$(button).hide();
+        return button;
     };
 
     var createButton = function(options, disabled) {
@@ -61,6 +79,7 @@
 
     var createDiv = function() {
         var div = document.createElement("DIV");
+        div.id = "recvoice-container";
         return div;
     };
 
@@ -74,6 +93,18 @@
             elem.html(text);
         }
         return speech;
+    };
+
+    var createStyle = function() {
+
+    	var style = document.createElement('STYLE');
+    	var s = [];
+    	s.push(document.createTextNode('.button-recvoice{ position: relative; float:right; right:52px; }'));
+    	s.push(document.createTextNode('#recvoice-container{ position: absolute; }'));
+
+    	for( var x in s) 
+    		style.appendChild(s[x]);
+    	return style;
     };
 
     var verify = function() {
